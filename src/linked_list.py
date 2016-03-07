@@ -4,10 +4,9 @@
 class Linked_List(object):
 
     def __init__(self, seq=None):
-        if seq is None:
-            self.seq = []
+        if seq is None or not seq:
+            self.head = ()
         else:
-            self.seq = seq
             node = None
             for idx, item in enumerate(seq):
                 node = (item, node)
@@ -20,8 +19,15 @@ class Linked_List(object):
     def pop():
         pass
 
-    def size():
-        pass
+    def size(self, node=None):
+        if node is None:
+            node = self.head
+        if not self.head:
+            return 0
+        if node[1] is None:
+            return 1
+        else:
+            return self.size(node[1]) + 1
 
     def search(val):
         pass
