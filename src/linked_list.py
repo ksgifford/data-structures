@@ -13,11 +13,15 @@ class Linked_List(object):
                 if idx == len(seq) - 1:
                     self.head = node
 
-    def insert(val):
-        pass
+    def insert(self, val):
+        self.head = (val, self.head)
 
-    def pop():
-        pass
+    def pop(self):
+        if not self.head:
+            return None
+        val = self.head[0]
+        self.head = self.head[1]
+        return val
 
     def size(self, node=None):
         if node is None:
@@ -41,4 +45,4 @@ class Linked_List(object):
         if node[1] is None:
             return (node[0],)
         else:
-            return self.display(node[1]) + (node[0],)
+            return (node[0],) + self.display(node[1])
