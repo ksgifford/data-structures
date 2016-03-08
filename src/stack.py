@@ -12,3 +12,10 @@ class Stack(object):
     def push(self, val):
         """Push a value onto the end of the list."""
         self._stack.insert(val)
+
+    def pop(self):
+        """Remove and return the top value in the stack."""
+        if not self._stack.display():
+            raise IndexError("Cannot pop from an empty stack.")
+        else:
+            return self._stack.pop()
