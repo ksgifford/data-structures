@@ -43,13 +43,22 @@ class Linked_List(object):
         else:
             return self.search(val, node[1])
 
-    def remove(node):
-        pass
+    def remove(self, node_rm, cur_node=False):
+        if not node_rm:
+            return None
+        if cur_node is False:
+            self.head = self.remove(node_rm, self.head)
+        elif cur_node is None:
+            return None
+        elif cur_node == node_rm:
+            return cur_node[1]
+        else:
+            return (cur_node[0], self.remove(node_rm, cur_node[1]))
 
-    def display(self, node=None):
-        if node is None:
+    def display(self, node=False):
+        if node is False:
             node = self.head
-        if node[1] is None:
-            return (node[0],)
+        if not node:
+            return ()
         else:
             return (node[0],) + self.display(node[1])

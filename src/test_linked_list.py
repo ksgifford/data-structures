@@ -31,13 +31,20 @@ INSERT_TEST = [
     ([], []),
 ]
 
-
 POP_TEST = [
     ([0, 1, 2], 2, 1),
     ([], None, None),
     ('abcdefg', 'g', 'f'),
     ((0, 0, 'astring', 8, []), [], 8),
     (range(100), 99, 98),
+]
+
+REMOVE_TEST = [
+    ([1, 2, 3, 4], 3, (4, 2, 1)),
+    ('abcd', 'a', ('d', 'c', 'b')),
+    ([7, 8, 9], 9, (8, 7)),
+    ([1, 2, 3, 4], 5, (4, 3, 2, 1)),
+    ([], 'X', ())
 ]
 
 
@@ -76,3 +83,12 @@ def test_search(seq, val, result):
     from linked_list import Linked_List
     instance = Linked_List(seq)
     assert instance.search(val) == result
+
+
+@pytest.mark.parametrize('seq, val, result', REMOVE_TEST)
+def test_remove(seq, val, result):
+    from linked_list import Linked_List
+    instance = Linked_List(seq)
+    test_node = instance.search(val)
+    instance.remove(test_node)
+    assert instance.display() == result
