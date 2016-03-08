@@ -1,4 +1,5 @@
-# # -*- coding: utf-8 -*-
+"""Unit tests for linked_list.py module."""
+# -*- coding: utf-8 -*-
 import pytest
 
 
@@ -50,6 +51,7 @@ REMOVE_TEST = [
 
 @pytest.mark.parametrize('seq, result', TEST_LST)
 def test_init(seq, result):
+    """Test list constructor function with optional iterable."""
     from linked_list import Linked_List
     instance = Linked_List(seq)
     assert instance.head[0] == seq[-1]
@@ -57,6 +59,7 @@ def test_init(seq, result):
 
 @pytest.mark.parametrize('seq, result', TEST_LST)
 def test_display(seq, result):
+    """Test display function against sample outputs."""
     from linked_list import Linked_List
     instance = Linked_List(seq)
     assert instance.display() == result
@@ -64,6 +67,7 @@ def test_display(seq, result):
 
 @pytest.mark.parametrize('seq, val', INSERT_TEST)
 def test_insert(seq, val):
+    """Test insert method to add value to list."""
     from linked_list import Linked_List
     instance = Linked_List(seq)
     instance.insert(val)
@@ -72,6 +76,7 @@ def test_insert(seq, val):
 
 @pytest.mark.parametrize('seq, popped_val, new_head', POP_TEST)
 def test_pop(seq, popped_val, new_head):
+    """Test pop method to remove value from head of list."""
     from linked_list import Linked_List
     instance = Linked_List(seq)
     assert instance.pop() == popped_val
@@ -80,6 +85,7 @@ def test_pop(seq, popped_val, new_head):
 
 @pytest.mark.parametrize('seq, val, result', SEARCH_TEST)
 def test_search(seq, val, result):
+    """Test search method for finding a given value in the list."""
     from linked_list import Linked_List
     instance = Linked_List(seq)
     assert instance.search(val) == result
@@ -87,6 +93,7 @@ def test_search(seq, val, result):
 
 @pytest.mark.parametrize('seq, val, result', REMOVE_TEST)
 def test_remove(seq, val, result):
+    """Test remove method for removing node associated with searched value."""
     from linked_list import Linked_List
     instance = Linked_List(seq)
     test_node = instance.search(val)

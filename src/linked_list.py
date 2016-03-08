@@ -1,10 +1,13 @@
+"""Defines data structure for implementing linked list."""
 # -*- coding: utf-8 -*-
 
 
 class Linked_List(object):
+    """Establish class to contain linked list methods."""
 
     def __init__(self, seq=None):
-        if seq is None or not seq:
+        """Construct linked list from optional sequence."""
+        if not seq:
             self.head = ()
         else:
             node = None
@@ -14,9 +17,11 @@ class Linked_List(object):
                     self.head = node
 
     def insert(self, val):
+        """Insert new value into list and set head at new value."""
         self.head = (val, self.head)
 
     def pop(self):
+        """Return value at head and remove it from the list."""
         if not self.head:
             return None
         val = self.head[0]
@@ -24,6 +29,7 @@ class Linked_List(object):
         return val
 
     def size(self, node=None):
+        """Return size of list by recursively traversing it."""
         if node is None:
             node = self.head
         if not self.head:
@@ -34,6 +40,7 @@ class Linked_List(object):
             return self.size(node[1]) + 1
 
     def search(self, val, node=False):
+        """Return node containg the given value or None if not found."""
         if node is False:
             node = self.head
         if not node:
@@ -44,6 +51,7 @@ class Linked_List(object):
             return self.search(val, node[1])
 
     def remove(self, node_rm, cur_node=False):
+        """Remove given node from list in place."""
         if not node_rm:
             return None
         if cur_node is False:
@@ -56,6 +64,7 @@ class Linked_List(object):
             return (cur_node[0], self.remove(node_rm, cur_node[1]))
 
     def display(self, node=False):
+        """Print the list as a tuple literal."""
         if node is False:
             node = self.head
         if not node:
