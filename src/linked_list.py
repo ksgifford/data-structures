@@ -4,24 +4,34 @@
 class Linked_List(object):
 
     def __init__(self, seq=None):
-        if seq is None:
-            self.seq = []
+        if seq is None or not seq:
+            self.head = ()
         else:
-            self.seq = seq
             node = None
             for idx, item in enumerate(seq):
                 node = (item, node)
                 if idx == len(seq) - 1:
                     self.head = node
 
-    def insert(val):
-        pass
+    def insert(self, val):
+        self.head = (val, self.head)
 
-    def pop():
-        pass
+    def pop(self):
+        if not self.head:
+            return None
+        val = self.head[0]
+        self.head = self.head[1]
+        return val
 
-    def size():
-        pass
+    def size(self, node=None):
+        if node is None:
+            node = self.head
+        if not self.head:
+            return 0
+        if node[1] is None:
+            return 1
+        else:
+            return self.size(node[1]) + 1
 
     def search(val):
         pass
@@ -35,4 +45,4 @@ class Linked_List(object):
         if node[1] is None:
             return (node[0],)
         else:
-            return self.display(node[1]) + (node[0],)
+            return (node[0],) + self.display(node[1])
