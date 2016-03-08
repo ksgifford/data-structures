@@ -9,6 +9,13 @@ TEST_LST = [
     (range(100), tuple(reversed(range(100)))),
 ]
 
+SEARCH_TEST = [
+    ([1, 2, 3], 2, (2, (1, None))),
+    ('abc', 'a', ('a', None)),
+    ([7, 8, 9], 10, None),
+    ([], 1, None)
+]
+
 SIZE_TEST = [
     ([0, 1, 2], 3),
     ([], 0),
@@ -62,3 +69,10 @@ def test_pop(seq, popped_val, new_head):
     instance = Linked_List(seq)
     assert instance.pop() == popped_val
     assert instance.size() == max([len(seq) - 1, 0])
+
+
+@pytest.mark.parametrize('seq, val, result', SEARCH_TEST)
+def test_search(seq, val, result):
+    from linked_list import Linked_List
+    instance = Linked_List(seq)
+    assert instance.search(val) == result

@@ -33,8 +33,15 @@ class Linked_List(object):
         else:
             return self.size(node[1]) + 1
 
-    def search(val):
-        pass
+    def search(self, val, node=False):
+        if node is False:
+            node = self.head
+        if not node:
+            return None
+        if node[0] == val:
+            return node
+        else:
+            return self.search(val, node[1])
 
     def remove(node):
         pass
