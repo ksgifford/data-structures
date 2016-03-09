@@ -26,12 +26,12 @@ class Node(object):
     def set_next(self, new_next):
         """Set the node's next reference to provided node."""
         self.next_node = new_next
-        new_next.prev = self
+        new_next.prev_node = self
 
     def set_prev(self, new_prev):
         """Set the node's previous reference to provide node."""
         self.prev_node = new_prev
-        new_prev.next = self
+        new_prev.next_node = self
 
 
 class DblLinkedList(object):
@@ -60,21 +60,18 @@ class DblLinkedList(object):
         new_node.set_next(self.head)
         self.head = new_node
 
-    # def size(self):
-    #     """Iterate through the node structure and return list size."""
-    #     current_loc = self.head
-    #     count = 0
-    #     while current_loc:
-    #         count += 1
-    #         current_loc = current_loc.get_next()
-    #     return count
-
     def append(self, val):
+        """Add node to tail of linked list and update previous reference."""
         new_node = Node(val)
-        new_node.set_prev()
+        new_node.set_prev(self.tail)
+        self.tail = new_node
 
     def pop(self):
-        pass
+        """Remove the first value from the head and return it."""
+        popped_node = self.head
+        self.head = self.head.next_node
+        self.head.prev_node = None
+        return popped_node.val
 
     def shift(self):
         pass
