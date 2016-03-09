@@ -31,6 +31,30 @@ TEST_POP = [
 ]
 
 
+TEST_SHIFT = [
+    ([1, 2, 3], 3, 2),
+    ('abc', 'c', 'b'),
+    (range(100), 99, 98),
+]
+
+
+TEST_REMOVE = [
+    ([1, 2, 3, 4], 3, [1, 2, 4]),
+    ('abcde', 'a', ['b', 'c', 'd', 'e']),
+    ([5, 6, 7, 8], 8, [5, 6, 7]),
+    ([1, 2, 3, 4], 10, [1, 2, 3, 4]),
+]
+
+
+def display_dll(dll):
+    cur_node = dll.head
+    display_lst = []
+    while cur_node:
+        display_lst.append(cur_node.val)
+        cur_node = cur_node.next_node
+    return display_lst
+
+
 @pytest.mark.parametrize('seq, head_val, head_next_val, tail_val', TEST_LST)
 def test_init(seq, head_val, head_next_val, tail_val):
     from dbl_linked_list import DblLinkedList
@@ -66,3 +90,23 @@ def test_pop(seq, popped_val, head_val):
     test_list = DblLinkedList(seq)
     assert test_list.pop() == popped_val
     assert test_list.head.val == head_val
+
+
+@pytest.mark.parametrize('seq, shift_val, tail_val', TEST_SHIFT)
+def test_shift(seq, shift_val, tail_val):
+    from dbl_linked_list import DblLinkedList
+    test_list = DblLinkedList(seq)
+    assert test_list.shift() == shift_val
+    assert test_list.tail.val == tail_val
+
+
+@pytest.mark.parametrize('seq, rm_value, expected', TEST_REMOVE)
+def test_remove(seq, rm_value, expected):
+    from dbl_linked_list import DblLinkedList
+    test_list = DblLinkedList(seq)
+    if rm_value not in seq:
+        with pytest.raises(ValueError):
+            test_list.remove(rm_value)
+    else:
+        test_list.remove(rm_value)
+        assert display_dll(test_list) == expected

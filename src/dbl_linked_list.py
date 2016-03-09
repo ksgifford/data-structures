@@ -67,14 +67,37 @@ class DblLinkedList(object):
         self.tail = new_node
 
     def pop(self):
-        """Remove the first value from the head and return it."""
+        """Remove the first node from the head and return its value."""
         popped_node = self.head
         self.head = self.head.next_node
-        self.head.prev_node = None
+        if self.head:
+            self.head.prev_node = None
         return popped_node.val
 
     def shift(self):
-        pass
+        """Remove node from tail and return its value."""
+        shifted_node = self.tail
+        self.tail = self.tail.prev_node
+        if self.tail:
+            self.tail.next_node = None
+        return shifted_node.val
 
     def remove(self, val):
-        pass
+        """Search list for value and remove first instance."""
+        search_node = self.head
+
+        while search_node:
+            if search_node.val == val:
+                if search_node == self.head:
+                    self.pop()
+                    break
+                elif search_node == self.tail:
+                    self.shift()
+                    break
+                else:
+                    search_node.prev_node.set_next(search_node.next_node)
+                    break
+            else:
+                search_node = search_node.next_node
+        else:
+            raise ValueError("Search value not found.")
