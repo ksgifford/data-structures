@@ -47,6 +47,7 @@ TEST_REMOVE = [
 
 
 def display_dll(dll):
+    """Return a list showing given LinkedList, which has no display method."""
     cur_node = dll.head
     display_lst = []
     while cur_node:
@@ -57,6 +58,7 @@ def display_dll(dll):
 
 @pytest.mark.parametrize('seq, head_val, head_next_val, tail_val', TEST_LST)
 def test_init(seq, head_val, head_next_val, tail_val):
+    """Test the DblLinkedList constructor method."""
     from dbl_linked_list import DblLinkedList
     test_list = DblLinkedList(seq)
     assert test_list.head.val == head_val
@@ -64,8 +66,10 @@ def test_init(seq, head_val, head_next_val, tail_val):
     assert test_list.tail.val == tail_val
 
 
-@pytest.mark.parametrize('seq, insert_val, head_val, head_next_val, tail_val', TEST_INSERT)
+@pytest.mark.parametrize('seq, insert_val, head_val, head_next_val, tail_val',
+                         TEST_INSERT)
 def test_insert(seq, insert_val, head_val, head_next_val, tail_val):
+    """Test the insert method of DblLinkedList class."""
     from dbl_linked_list import DblLinkedList
     test_list = DblLinkedList(seq)
     test_list.insert(insert_val)
@@ -74,8 +78,10 @@ def test_insert(seq, insert_val, head_val, head_next_val, tail_val):
     assert test_list.tail.val == tail_val
 
 
-@pytest.mark.parametrize('seq, append_val, head_val, tail_val, tail_prev_val', TEST_APPEND)
+@pytest.mark.parametrize('seq, append_val, head_val, tail_val, tail_prev_val',
+                         TEST_APPEND)
 def test_append(seq, append_val, head_val, tail_val, tail_prev_val):
+    """Test the append method of DblLinkedList class."""
     from dbl_linked_list import DblLinkedList
     test_list = DblLinkedList(seq)
     test_list.append(append_val)
@@ -86,6 +92,7 @@ def test_append(seq, append_val, head_val, tail_val, tail_prev_val):
 
 @pytest.mark.parametrize('seq, popped_val, head_val', TEST_POP)
 def test_pop(seq, popped_val, head_val):
+    """Test the pop method of DblLinkedList class."""
     from dbl_linked_list import DblLinkedList
     test_list = DblLinkedList(seq)
     assert test_list.pop() == popped_val
@@ -94,6 +101,7 @@ def test_pop(seq, popped_val, head_val):
 
 @pytest.mark.parametrize('seq, shift_val, tail_val', TEST_SHIFT)
 def test_shift(seq, shift_val, tail_val):
+    """Test the shift method of DblLinkedList class."""
     from dbl_linked_list import DblLinkedList
     test_list = DblLinkedList(seq)
     assert test_list.shift() == shift_val
@@ -102,6 +110,7 @@ def test_shift(seq, shift_val, tail_val):
 
 @pytest.mark.parametrize('seq, rm_value, expected', TEST_REMOVE)
 def test_remove(seq, rm_value, expected):
+    """Test the remove method of DblLinkedList class."""
     from dbl_linked_list import DblLinkedList
     test_list = DblLinkedList(seq)
     if rm_value not in seq:
