@@ -26,12 +26,14 @@ class Node(object):
     def set_next(self, new_next):
         """Set the node's next reference to provided node."""
         self.next_node = new_next
-        new_next.prev_node = self
+        if new_next:
+            new_next.prev_node = self
 
     def set_prev(self, new_prev):
         """Set the node's previous reference to provide node."""
         self.prev_node = new_prev
-        new_prev.next_node = self
+        if new_prev:
+            new_prev.next_node = self
 
 
 class DblLinkedList(object):
@@ -58,21 +60,27 @@ class DblLinkedList(object):
         """Add node to linked list and update next and previous references."""
         new_node = Node(val)
         new_node.set_next(self.head)
+        if not self.tail:
+            self.tail = new_node
         self.head = new_node
 
     def append(self, val):
         """Add node to tail of linked list and update previous reference."""
         new_node = Node(val)
         new_node.set_prev(self.tail)
+        if not self.head:
+            self.head = new_node
         self.tail = new_node
 
     def pop(self):
         """Remove the first node from the head and return its value."""
-        popped_node = self.head
-        self.head = self.head.next_node
-        if self.head:
+        if not self.head:
+            raise IndexError("Cannot pop from empty list.")
+        else:
+            popped_node = self.head
+            self.head = self.head.next_node
             self.head.prev_node = None
-        return popped_node.val
+            return popped_node.val
 
     def shift(self):
         """Remove node from tail and return its value."""
