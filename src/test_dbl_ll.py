@@ -28,6 +28,7 @@ TEST_POP = [
     ([1, 2, 3], 1, 2),
     ('abc', 'a', 'b'),
     (range(100), 0, 1),
+    ([], None, None)
 ]
 
 
@@ -95,8 +96,12 @@ def test_pop(seq, popped_val, head_val):
     """Test the pop method of DblLinkedList class."""
     from dbl_linked_list import DblLinkedList
     test_list = DblLinkedList(seq)
-    assert test_list.pop() == popped_val
-    assert test_list.head.val == head_val
+    if not seq:
+        with pytest.raises(IndexError):
+            test_list.pop()
+    else:
+        assert test_list.pop() == popped_val
+        assert test_list.head.val == head_val
 
 
 @pytest.mark.parametrize('seq, shift_val, tail_val', TEST_SHIFT)
