@@ -16,38 +16,43 @@ class LinkedList(object):
 
     def __init__(self, seq=None):
         """Initialize linked list and set head."""
-        cur_node = None
         self.head = None
-        # self.tail = None
 
-        for val in seq:
+        cur_node = None
+        for val in seq or []:
             cur_node = Node(val, cur_node)
         if cur_node:
             self.head = cur_node
 
     def display(self):
         """Print the list as a tuple literal."""
-        pass
+        display_list = []
+        cur_node = self.head
+        while cur_node:
+            display_list.append(cur_node.val)
+            cur_node = cur_node.next
+        return str(tuple(display_list))
 
     def size(self):
         """Return the size of the LinkedList as an integer."""
-        pass
+        cur_node = self.head
+        counter = 0
+        while cur_node:
+            counter += 1
+            cur_node = cur_node.next
+        return counter
 
-    # TODO
     def insert(self, val):
         """Add node to linked list and update next and previous references."""
         # condense this into 1 line
-        new_node = Node(val)
-        new_node.next = self.head
-        self.head = new_node
+        self.head = Node(val, self.head)
 
-    # TODO
     def pop(self):
         """Remove the first node from the head and return its value."""
+        if not self.head:
+            raise IndexError("Cannot pop from empty LinkedList.")
         popped_node = self.head
-        self.head = self.head.next_node
-        if self.head:
-            self.head.prev_node = None
+        self.head = popped_node.next
         return popped_node.val
 
     # TODO
@@ -55,43 +60,23 @@ class LinkedList(object):
         """Return node containg the given value or None if not found."""
         search_node = self.head
         while search_node:
-            pass
-        #     if search_node.val == val:
-        #         if search_node == self.head:
-        #             self.pop()
-        #             break
-        #         elif search_node == self.tail:
-        #             self.shift()
-        #             break
-        #         else:
-        #             search_node.prev_node.set_next(search_node.next_node)
-        #             break
-        #     else:
-        #         search_node = search_node.next_node
-        # else:
-        #     raise ValueError("Search value not found.")
+            if search_node.val == search_val:
+                return search_node
+            search_node = search_node.next
+        return None
 
     # TODO
     def remove(self, node_to_remove):
         """Remove given node from list in place."""
+        prev_node = None
         search_node = self.head
-
         while search_node:
-            pass
-        #     if search_node.val == val:
-        #         if search_node == self.head:
-        #             self.pop()
-        #             break
-        #         elif search_node == self.tail:
-        #             self.shift()
-        #             break
-        #         else:
-        #             search_node.prev_node.set_next(search_node.next_node)
-        #             break
-        #     else:
-        #         search_node = search_node.next_node
-        # else:
-        #     raise ValueError("Search value not found.")
+            if search_node == node_to_remove:
+                if prev_node:
+                    prev_node.next = search_node.next
+                return search_node
+            prev_node = search_node
+            search_node = search_node.next
 
 
 # # old version

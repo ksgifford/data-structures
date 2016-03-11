@@ -1,25 +1,29 @@
 """Unit tests for linked_list.py module."""
 # -*- coding: utf-8 -*-
 import pytest
-from collections import defaultdict, ordereddict
-from linked_list import Node, LinkedList
+import random
+from string import printable
+# from collections import defaultdict, ordereddict
+# from linked_list import Node, LinkedList
 
 TEST_NULL = 'TEST_NULL'
 
-TEST_PARAMS = [
+TEST_PARAMS = (
     'type',
     'instance',
     'popped_val',
+    'pop_error',
     'display',
-    'search_result',
+    'search_val',
+    # 'search_result',
     'size',
+)
 
-]
 
 TEST_SEQUENCES = [
     None,  # case where we construct LinkedList without passing a sequence
     'this is a much longer string sequence of characters',
-    range(100, 1000),
+    list(range(100, 1000)),
     tuple(range(100, 1000)),
     'abc',
     [1, 2, 3],
@@ -33,140 +37,92 @@ TEST_SEQUENCES = [
 ]
 
 
-@pytest.fixture(scope=function)
-def make_instance(seq=None):
-    if seq is not None:
-        return LinkedList(seq)
-    return LinkedList()
+@pytest.fixture(scope='function')
+def insert_val():
+    """Randomly select a value to insert, then test."""
+    return random.choice([
+        random.choice(range(1000)),
+        random.choice(printable),
+        None,
+    ])
 
 
-@pytest.fixture(scope=function)
-def assemble_tuple(seq, **kwargs):
-    dic = {}  # default to TEST_NULL
-    dic['instance'] = make_instance(LinkedList)
-    try:
-        dic['popped_val'] = seq[0]
-    except IndexError:
+@pytest.fixture(scope='function', params=TEST_SEQUENCES)
+def assemble_dict(request, insert_val):
+    """Create a dictionary of various expected values found in tests."""
+    from linked_list import LinkedList
+    seq = request.param
+    dic = {param: TEST_NULL for param in TEST_PARAMS}
+
+    dic['seq'] = seq
+
+    if seq is None:
+        dic['instance'] = LinkedList()
         dic['pop_error'] = IndexError
-    return tuple([dic[param] for param in TEST_PARAMS])
+        dic['display'] = '()'
+        dic['size'] = 0
+    else:
+        dic['search_val'] = random.choice(seq)
+        dic['instance'] = LinkedList(seq)
 
-{
-    'instance': LinkedList,
-    'popped_val': None,
-    ''
-}
+        dic['display'] = str(tuple(reversed(seq)))
 
-TEST_LISTS = {
-    'init': init_
-}
+        try:
+            dic['popped_val'] = seq[-1]
+        except IndexError:
+            dic['pop_error'] = IndexError
 
-@pytest.fixture
-def instances():
-    return
+        dic['size'] = len(seq)
 
-
-
-@pytest.fixture
-def assemble_table(testname):
-    table = [
-        assemble_tuple(seq, **kwargs) for kwargs in ref_dict['testname']
-    ]
-    return
+    return dic
 
 
-TEST_LST = [
-    ([1, 2, 3], (3, 2, 1)),
-    ('abc', ('c', 'b', 'a')),
-    ([7, 8, 9], (9, 8, 7)),
-    (range(100), tuple(reversed(range(100)))),
-]
-
-SEARCH_TEST = [
-    ([1, 2, 3], 2, (2, (1, None))),
-    ('abc', 'a', ('a', None)),
-    ([7, 8, 9], 10, None),
-    ([], 1, None)
-]
-
-SIZE_TEST = [
-    ([0, 1, 2], 3),
-    ([], 0),
-    ('abcdefg', 7),
-    ((0, 0, 'astring', 8, []), 5),
-    (range(100), 100),
-]
-
-INSERT_TEST = [
-    ([0, 1, 2], 'a'),
-    ('abcdefg', 1),
-    ((0, 0, 'astring', 8, []), 0),
-    ([], []),
-]
-
-POP_TEST = [
-    ([0, 1, 2], 2, 1),
-    ([], None, None),
-    ('abcdefg', 'g', 'f'),
-    ((0, 0, 'astring', 8, []), [], 8),
-    (range(100), 99, 98),
-]
-
-REMOVE_TEST = [
-    ([1, 2, 3, 4], 3, (4, 2, 1)),
-    ('abcd', 'a', ('d', 'c', 'b')),
-    ([7, 8, 9], 9, (8, 7)),
-    ([1, 2, 3, 4], 5, (4, 3, 2, 1)),
-    ([], 'X', ())
-]
-
-
-@pytest.mark.parametrize('seq, result', TEST_LST)
-def test_init(seq, result):
+def test_init(assemble_dict):
     """Test list constructor function with optional iterable."""
-    from linked_list import Linked_List
-    instance = LinkedList(seq)
-    assert isinstance(object, class_or_type_or_tuple)
+    from linked_list import LinkedList
+    assert isinstance(assemble_dict['instance'], LinkedList)
 
 
-@pytest.mark.parametrize('seq, result', TEST_LST)
-def test_display(seq, result):
+def test_display(assemble_dict):
     """Test display function against sample outputs."""
-    from linked_list import LinkedList
-    instance = LinkedList(seq)
-    assert instance.display() == result
+    instance = assemble_dict['instance']
+    assert instance.display() == assemble_dict['display']
 
 
-@pytest.mark.parametrize('seq, val', INSERT_TEST)
-def test_insert(seq, val):
-    """Test insert method to add value to list."""
-    from linked_list import LinkedList
-    instance = LinkedList(seq)
-    instance.insert(val)
-    assert instance.head[0] == val
-
-
-@pytest.mark.parametrize('seq, popped_val, new_head', POP_TEST)
-def test_pop(seq, popped_val, new_head):
+def test_pop(assemble_dict):
     """Test pop method to remove value from head of list."""
-    from linked_list import LinkedList
-    instance = LinkedList(seq)
-    assert instance.pop() == popped_val
-    assert instance.size() == max([len(seq) - 1, 0])
+    instance = assemble_dict['instance']
+    if assemble_dict['seq']:
+        assert instance.pop() == assemble_dict['popped_val']
+        assert instance.size() == assemble_dict['size'] - 1
+    else:
+        with pytest.raises(assemble_dict['pop_error']):
+            instance.pop()
 
 
-@pytest.mark.parametrize('seq, val, result', SEARCH_TEST)
-def test_search(seq, val, result):
+def test_insert(insert_val, assemble_dict):
+    """Test insert method to add value to list."""
+    instance = assemble_dict['instance']
+    instance.insert(insert_val)
+    assert instance.head.val == insert_val
+
+
+def test_search(assemble_dict):
     """Test search method for finding a given value in the list."""
-    from linked_list import LinkedList
-    instance = LinkedList(seq)
-    assert instance.search(val) == result
+    from linked_list import Node
+    instance = assemble_dict['instance']
+    search_val = assemble_dict['search_val']
+    result = instance.search(search_val)
+    assert isinstance(result, Node)
+    assert result.val == search_val
+    assert instance.search(TEST_NULL) == None
 
 
-@pytest.mark.parametrize('seq, val, result', REMOVE_TEST)
-def test_remove(seq, val, result):
-    """Test remove method for removing node associated with searched value."""
-    from linked_list import LinkedList
-    instance = LinkedList(seq)
-    test_node = instance.search(val)
-    instance.remove(test_node)
-    assert instance.display() == result
+# @pytest.mark.parametrize('seq, val, result', REMOVE_TEST)
+# def test_remove(seq, val, result):
+#     """Test remove method for removing node associated with searched value."""
+#     from linked_list import LinkedList
+#     instance = LinkedList(seq)
+#     test_node = instance.search(val)
+#     instance.remove(test_node)
+#     assert instance.display() == result
