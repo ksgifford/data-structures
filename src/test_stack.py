@@ -33,7 +33,7 @@ def push_val():
     ])
 
 
-def false_case(seq, push_val):
+def false_case(seq):
     """Create a dict of general parameters for any False-ish test case."""
     from stack import Stack
     dic = {
@@ -42,12 +42,11 @@ def false_case(seq, push_val):
     if seq is None:
         dic['instance'] = Stack()
     else:
-        dic['instance'] = Stack(seq),
-        dic['display_after_push'] = str(tuple(reversed(seq)) + (push_val,))
+        dic['instance'] = Stack(seq)
     return dic
 
 
-def true_case(seq, push_val):
+def true_case(seq):
     """Create a dict of general parameters for any True-ish test case."""
     from stack import Stack
     rev_seq = seq[::-1]
@@ -57,7 +56,6 @@ def true_case(seq, push_val):
         'popped_val': seq[-1],
         'display': str(tuple(rev_seq)),
         'display_after_pop': str(tuple(rev_seq[1:])),
-        'display_after_push': str(tuple(rev_seq) + (push_val,))
     }
 
 
@@ -65,12 +63,16 @@ def true_case(seq, push_val):
 def case_vals(request, push_val):
     """Create a dictionary of various expected values found in tests."""
     seq = request.param
-    dic = {'seq': seq}
+    dic = {
+        'seq': seq,
+        'push_val': push_val,
+        'display_after_push': str((push_val,) + tuple(reversed(seq or ())))
+    }
 
     if not seq:
-        dic.update(false_case(seq, push_val))
+        dic.update(false_case(seq))
     else:
-        dic.update(true_case(seq, push_val))
+        dic.update(true_case(seq))
     return dic
 
 
@@ -81,9 +83,10 @@ def test_init(case_vals):
     assert isinstance(instance, Stack)
 
 
-def test_push(push_val, case_vals):
+def test_push(case_vals):
     """Test push method of Stack."""
     instance = case_vals['instance']
+    push_val = case_vals['push_val']
     instance.push(push_val)
     assert instance._stack.display() == case_vals['display_after_push']
 
@@ -95,13 +98,14 @@ def test_pop(case_vals):
         assert instance.pop() == case_vals['popped_val']
         assert instance._stack.display() == case_vals['display_after_pop']
     else:
-        with pytest.rase(case_vals['pop_error']):
+        with pytest.raises(case_vals['pop_error']):
             instance.pop()
 
 
 def test_push_and_pop(case_vals):
     """Test that pop() returns the last value pushed to the stack."""
     instance = case_vals['instance']
+    push_val = case_vals['push_val']
     init_display = instance._stack.display()
     instance.push(push_val)
     assert instance._stack.display() == case_vals['display_after_push']
