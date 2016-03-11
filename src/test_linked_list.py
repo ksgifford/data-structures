@@ -71,7 +71,7 @@ def true_case(seq):
 
 
 @pytest.fixture(scope='function', params=TEST_SEQUENCES)
-def case_vals(request, insert_val):
+def case_vals(request):
     """Create a dictionary of various expected values found in tests."""
     seq = request.param
     dic = {'seq': seq}
