@@ -2,7 +2,7 @@
 
 
 def paren_test(string):
-    """Iterate through a provided string and evaluate parenthetics."""
+    """Evaluate parenthetics in a string for proper opening and closing."""
     open_count = 0
     close_count = 0
 
