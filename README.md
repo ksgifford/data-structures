@@ -3,8 +3,8 @@
 This repository contains sample code for a number of classic data structures
 implemented in Python.
 
-Use the Doubly Linked List or cases where a user may need to reference a 
-previous item in the list from any given item, or where a user may need to 
+Use the Doubly Linked List or cases where a user may need to reference a
+previous item in the list from any given item, or where a user may need to
 iterate through the list in reverse order. Otherwise, use the slightly faster
 Singly Linked List.
 
@@ -20,6 +20,13 @@ Doubly Linked List:
     Module dbl_linked_list.py contains a DblLinkedList class with pop, shift,
     insert, append and remove methods. It also contains a Node class, which
     DblLinkedList uses to hold its values.
+
+Queue:
+    Module new_queue.py contains a Queue class with enqueue, dequeue, and size
+    methods, as well as a peek method that allows the user to get the value of
+    the next item in the queue without popping it. The Queue class imports the
+    DblLinkedList class described above, and most of its methods are composed
+    from this class.
 
 
 Resources:
