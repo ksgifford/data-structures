@@ -3,6 +3,11 @@
 This repository contains sample code for a number of classic data structures
 implemented in Python.
 
+Use the Doubly Linked List or cases where a user may need to reference a 
+previous item in the list from any given item, or where a user may need to 
+iterate through the list in reverse order. Otherwise, use the slightly faster
+Singly Linked List.
+
 Singly Linked List:
     Module linked_list.py contains a recursively generated linked list class
     (Linked_List).
@@ -11,8 +16,16 @@ Stack:
     Module stack.py leverages the linked_list module to build methods for
     generating a stack, as well as adding and removing items.
 
+Doubly Linked List:
+    Module dbl_linked_list.py contains a DblLinkedList class with pop, shift,
+    insert, append and remove methods. It also contains a Node class, which
+    DblLinkedList uses to hold its values.
+
 
 Resources:
+
+    https://www.codefellows.org/blog/implementing-a-singly-linked-list-in-python
+
     http://interactivepython.org/runestone/static/pythonds/BasicDS/ImplementinganUnorderedListLinkedLists.html
 
     http://stackoverflow.com/questions/31333462/finding-the-length-of-a-linked-list-in-python
