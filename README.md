@@ -28,6 +28,14 @@ Queue:
     DblLinkedList class described above, and most of its methods are composed
     from this class.
 
+Parenthetics:
+    Module parenthetics_kevin.py contains a test for evaluating strings that
+    contain parenthetical statements to ensure proper opening and closing of
+    parentheses. Properly formatted strings will return a value of 0. Strings
+    with hanging open parentheses will return a value of 1. Strings with extra
+    closing parentheses, or a closing parenthesis that has not been preceded by
+    an opening parenthesis, will return a value of -1.
+
 
 Resources:
 
