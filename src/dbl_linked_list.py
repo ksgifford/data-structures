@@ -46,7 +46,7 @@ class DblLinkedList(object):
         self.head = None
         self.tail = None
 
-        for val in seq:
+        for val in seq or []:
             cur_node = Node(val, prev_node=prev_node)
             if prev_node:
                 prev_node.next_node = cur_node
@@ -79,16 +79,24 @@ class DblLinkedList(object):
         else:
             popped_node = self.head
             self.head = self.head.next_node
-            self.head.prev_node = None
+            if self.head:
+                self.head.prev_node = None
+            else:
+                self.tail = None
             return popped_node.val
 
     def shift(self):
         """Remove node from tail and return its value."""
-        shifted_node = self.tail
-        self.tail = self.tail.prev_node
-        if self.tail:
-            self.tail.next_node = None
-        return shifted_node.val
+        if not self.tail:
+            raise IndexError("Cannot shift from empty list.")
+        else:
+            shifted_node = self.tail
+            self.tail = self.tail.prev_node
+            if self.tail:
+                self.tail.next_node = None
+            else:
+                self.head = None
+            return shifted_node.val
 
     def remove(self, val):
         """Search list for value and remove first instance."""
