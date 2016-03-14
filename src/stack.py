@@ -1,5 +1,5 @@
 """Define Stack data-type with last-in, first-out operation."""
-from linked_list import Linked_List
+from linked_list import LinkedList
 
 
 class Stack(object):
@@ -7,7 +7,7 @@ class Stack(object):
 
     def __init__(self, seq=None):
         """Construct new Stack instance."""
-        self._stack = Linked_List(seq)
+        self._stack = LinkedList(seq)
 
     def push(self, val):
         """Push a value onto the end of the list."""
@@ -15,7 +15,7 @@ class Stack(object):
 
     def pop(self):
         """Remove and return the top value in the stack."""
-        if not self._stack.display():
+        if not self._stack.head:
             raise IndexError("Cannot pop from an empty stack.")
         else:
             return self._stack.pop()
