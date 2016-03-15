@@ -28,6 +28,13 @@ Queue:
     DblLinkedList class described above, and most of its methods are composed
     from this class.
 
+Deque:
+    Module new_deque.py contains a Deque class with methods for appending to
+    both ends of the deque, removing items from each end of the deque, "peeking"
+    at the values of the items on each end, and calculating the size of the
+    deque. The Deque class imports the DblLinkedList class, and most of its
+    methods are composed from this class.
+
 
 Resources:
 
