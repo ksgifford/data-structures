@@ -11,27 +11,37 @@ class BinHeap(object):
             self._heap_list = []
         else:
             self._heap_list = list(seq)
-            self._max_heapify()
+            self._build_heap()
 
-    def _max_heapify(self):
-        idx = 0
+    def _build_heap(self):
+        for idx in range(len(self._heap_list)):
+            self._max_heapify(idx)
 
-        while idx < len(self._heap_list):
-            left_val = _child_left()
-            right_val = _child_right()
-            parent_val = self._heap_list[idx]
+    def _max_heapify(self, parent_idx):
+        left = self._child_left(parent_idx)
+        right = self._child_right(parent_idx)
 
-            # _child functions should return indexes, not values?
-            if self.compare_max(left_val, parent_val):
-                self._swap()
-            idx -= 1
+        if self.compare_max(left, parent_idx):
+            largest = left
+        else:
+            largest = parent_idx
 
-    def _swap(self, child_idx, parent_idx):
+        if self.compare_max(right, largest):
+            largest = right
+
+        if largest != parent_idx:
+            self._swap(largest, parent_idx)
+            self._max_heapify(largest)
+
+    def _swap(self, larger_idx, smaller_idx):
         heap = self._heap_list
-        heap[child_idx], heap[parent_idx] = heap[parent_idx], heap[child_idx]
+        heap[larger_idx], heap[smaller_idx] = heap[smaller_idx], heap[larger_idx]
 
-    def _compare_max(child, parent):
-        return child > parent
+    def _compare_max(self, child_idx, parent_idx):
+        try:
+            return self._heap_list[child_idx] > self._heap_list[parent_idx]
+        except IndexError:
+            return False
 
     def _parent(self, idx):
         if idx == 0:
@@ -40,16 +50,10 @@ class BinHeap(object):
             return self._heap_list[math.floor((idx - 1) / 2)]
 
     def _child_left(self, idx):
-        try:
-            return self._heap_list[2 * idx + 1]
-        except IndexError:
-            return None
+        return 2 * idx + 1
 
     def _child_right(self, idx):
-        try:
-            return self._heap_list[2 * idx + 2]
-        except IndexError:
-            return None
+        return 2 * idx + 2
 
     def insert(self, val):
         pass
