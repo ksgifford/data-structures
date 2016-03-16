@@ -2,7 +2,7 @@ import math
 import time
 
 
-def heapify(seq):
+def heapify1(seq):
     heap = list(seq)
     print('heapifying:', heap)
     starting_idx = len(heap) - 1
@@ -31,8 +31,43 @@ def heapify(seq):
     return heap
 
 
+def heapify_outer(seq):
+    heap = list(seq)
+    print('heapifying:', heap)
+    parent = len(heap) - 1
+
+    while parent >= 0:
+        heapify_down(heap, parent)
+        parent -= 1
+
+    return heap
+
+
+def heapify_down(heap, parent):
+    left = left_child(parent)
+    right = right_child(parent)
+
+    largest = parent
+    if compare(heap, left, parent):
+        largest = left
+    if compare(heap, right, largest):
+        largest = right
+
+    if largest != parent:
+        swap(heap, largest, parent)
+        heapify_down(heap, largest)
+
+
 def parent(idx):
     return int(math.floor((idx - 1) / 2))
+
+
+def left_child(idx):
+    return (idx * 2) + 1
+
+
+def right_child(idx):
+    return (idx * 2) + 2
 
 
 def swap(heap, idx1, idx2):
@@ -41,13 +76,15 @@ def swap(heap, idx1, idx2):
     # time.sleep(1)
 
 
-
 def compare(heap, child_idx, parent_idx):
-    print('comparing child {}  at {} to parent {} at {}'.format(
-        heap[child_idx], child_idx, heap[parent_idx], parent_idx))
+    # print('comparing child {}  at {} to parent {} at {}'.format(
+    #     heap[child_idx], child_idx, heap[parent_idx], parent_idx))
     if child_idx <= 0:
         return False
-    return heap[child_idx] > heap[parent_idx]
+    try:
+        return heap[child_idx] > heap[parent_idx]
+    except IndexError:
+        return False
 
 
 tests = [
@@ -63,7 +100,7 @@ results = []
 
 if __name__ == '__main__':
     for t in tests:
-        result = heapify(t)
+        result = heapify_outer(t)
         print(result)
         results.append(result)
     for r in results:
