@@ -1,7 +1,7 @@
 """Unit tests for binheap.py module."""
 # -*- coding: utf-8 -*-
 import pytest
-
+import math
 
 TEST_CASES = [
     ((2, 10, 14, 8), [14, 10, 2, 8]),
@@ -10,41 +10,81 @@ TEST_CASES = [
 ]
 
 TESTS = [
+    None,
+    (),
+    [],
+    '',
+    'a',
+    (1,),
+    [1],
+    'abc',
     (1, 2, 3, 4),
     [4, 3, 9, 1],
-    [1],
+    'jdslajdlfkjaldgna',
+    tuple(range(10000)),
+    list(range(10000)),
+    'kliijj;lkijgasdfanfiiofi48ghgknlvili;wgr;w',
 ]
 
 
-@pytest.mark.parametrize('seq', TESTS)
-def test_init(seq):
+@pytest.fixture(scope='function', params=TESTS)
+def instance_and_seq(request):
+    from binheap import BinHeap
+    seq = request.param
+    if seq is None:
+        instance = BinHeap()
+        seq = []
+    else:
+        instance = BinHeap(seq)
+
+    return (instance, seq)
+
+
+def is_real_heap(heap, parent_idx):
+    """Check all positions in heap to ensure its parent is smaller."""
+    for child_idx, child_val in enumerate(heap):
+
+        parent_idx = max([0, math.floor((child_idx - 1) / 2)])
+
+        if child_val > heap[parent_idx]:
+            return False
+    return True
+
+
+def test_init(instance_and_seq):
     """Test that BinHeap properly constructs from given sequence."""
-    from binheap import BinHeap
-    heap = BinHeap(seq)
-    assert heap._heap_list == list(reversed(sorted(list(seq))))
+    instance, seq = instance_and_seq
+    assert is_real_heap(instance._heap_list, 0)
 
 
-@pytest.mark.parametrize('seq', TESTS)
-def test_pop_result(seq):
+def test_pop_result(instance_and_seq):
     """Test result of BinHeap's pop method."""
-    from binheap import BinHeap
-    heap = BinHeap(seq)
-    assert heap.pop() == max(seq)
+    instance, seq = instance_and_seq
+    if seq:
+        assert instance.pop() == max(seq)
 
 
-@pytest.mark.parametrize('seq', TESTS)
-def test_pop_len(seq):
+def test_pop_len(instance_and_seq):
     """Test length of BinHeap's internal list after pop."""
-    from binheap import BinHeap
-    heap = BinHeap(seq)
-    heap.pop()
-    assert len(heap._heap_list) == len(seq) - 1
+    instance, seq = instance_and_seq
+    if seq:
+        instance.pop()
+        assert len(instance._heap_list) == len(seq) - 1
 
 
-@pytest.mark.parametrize('seq', TESTS)
-def test_push_len(seq):
+def test_pop_empty(instance_and_seq):
+    """Test that popping an empty list raises an index error."""
+    instance, seq = instance_and_seq
+    if not seq:
+        with pytest.raises(IndexError):
+            instance.pop()
+
+
+def test_push_len(instance_and_seq):
     """Test length of BinHeap's internal list after push."""
-    from binheap import BinHeap
-    heap = BinHeap(seq)
-    heap.push(0)
-    assert len(heap._heap_list) == len(seq) + 1
+    instance, seq = instance_and_seq
+    if isinstance(seq, str):
+        instance.push('a')
+    else:
+        instance.push(0)
+    assert len(instance._heap_list) == len(seq) + 1

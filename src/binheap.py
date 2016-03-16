@@ -65,6 +65,9 @@ class BinHeap(object):
 
     def pop(self):
         """Remove the root value of the heap, then re-sort it."""
-        result = self._heap_list.pop(0)
+        try:
+            result = self._heap_list.pop(0)
+        except IndexError:
+            raise IndexError("Cannot pop from an empty heap.")
         self._build_heap()
         return result
