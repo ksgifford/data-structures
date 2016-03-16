@@ -40,8 +40,7 @@ def instance_and_seq(request):
     return (instance, seq)
 
 
-def is_real_heap(heap, parent_idx):
-    """Check all positions in heap to ensure its parent is smaller."""
+def _is_real_heap(heap, parent_idx):
     for child_idx, child_val in enumerate(heap):
 
         parent_idx = max([0, math.floor((child_idx - 1) / 2)])
