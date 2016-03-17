@@ -53,7 +53,7 @@ def _is_real_heap(heap, parent_idx):
 def test_init(instance_and_seq):
     """Test that BinHeap properly constructs from given sequence."""
     instance, seq = instance_and_seq
-    assert is_real_heap(instance._heap_list, 0)
+    assert _is_real_heap(instance._heap_list, 0)
 
 
 def test_pop_result(instance_and_seq):
