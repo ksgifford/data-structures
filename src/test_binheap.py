@@ -29,6 +29,7 @@ TESTS = [
 
 @pytest.fixture(scope='function', params=TESTS)
 def instance_and_seq(request):
+    """Return tuple of new BinHeap object and sequence that constructed it."""
     from binheap import BinHeap
     seq = request.param
     if seq is None:
@@ -41,9 +42,10 @@ def instance_and_seq(request):
 
 
 def _is_real_heap(heap, parent_idx):
+    """Return true if the given heap is correctly structured, else False."""
     for child_idx, child_val in enumerate(heap):
 
-        parent_idx = max([0, math.floor((child_idx - 1) / 2)])
+        parent_idx = max([0, int(math.floor((child_idx - 1) / 2))])
 
         if child_val > heap[parent_idx]:
             return False
