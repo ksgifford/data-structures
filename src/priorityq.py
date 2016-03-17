@@ -11,12 +11,21 @@ class PriorityQ(object):
         self._cumulative_idx = 0
 
     def insert(self, pri, val):
+        """Insert a value at the end of the priority queue."""
         self._heap.push((pri, self._cumulative_idx, val))
         self._cumulative_idx += 1
 
     def pop(self):
-        result = self._heap.pop()
-        return result[2]
+        """Remove and return the value at the root of the priority queue."""
+        try:
+            result = self._heap.pop()
+            return result[2]
+        except IndexError:
+            raise IndexError("Cannot pop from empty queue.")
 
     def peek(self):
-        return self._heap._heap_list[0]
+        """Return the value of at the root of the priority queue."""
+        try:
+            return self._heap._heap_list[0][2]
+        except IndexError:
+            return None
