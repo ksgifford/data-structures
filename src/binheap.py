@@ -63,7 +63,7 @@ class BinHeap(object):
         if idx == 0:
             return None
         else:
-            return self._heap_list[math.floor((idx - 1) / 2)]
+            return self._heap_list[int(math.floor((idx - 1) / 2))]
 
     def _child_left(self, idx):
         return 2 * idx + 1
