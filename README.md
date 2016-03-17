@@ -35,6 +35,20 @@ Deque:
     deque. The Deque class imports the DblLinkedList class, and most of its
     methods are composed from this class.
 
+BinHeap:
+    Module binheap.py contains a BinHeap class which sorts itself in binary
+    heap fashion. Each node has two children, both of which must be of lesser
+    value than the parent. The class has a pop method which removes the root
+    at the top of the heap, and a push which appends a new value to the end
+    of the heap. In both cases, the heap immediately re-arranges itself.
+
+PriorityQueue:
+    Module priorityq.py defines a PriorityQ class which sorts contents by
+    the priority with which they were added. In Queue style, it then orders
+    items by the order in which they were added (first in, first out).
+    It has an insert method to add to the Priority Queue, and a pop method
+    to remove and return the first item by priority. The peek method shows
+    this same value.
 
 Resources:
 
