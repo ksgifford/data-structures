@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 
-class D_Graph(object):
+class DGraph(object):
     """Class for implementing our direted graph structure."""
 
     def __init__(self):
@@ -11,17 +11,17 @@ class D_Graph(object):
 
     def nodes(self):
         """Return list of keys in the dict, which represent node names."""
-        return self._d_graph.keys()
+        return list(self._d_graph.keys())
 
     def edges(self):
         """Return a list of edges that originate from each node."""
         edge_list = []
         for key, val in self._d_graph.items():
             for node in val:
-                edge_list.append('>'.join(key, node))
+                edge_list.append('>'.join((key, node)))
         return edge_list
 
-    def add_nodes(self, node):
+    def add_node(self, node):
         """Add specified node to graph and intialize an empty set of edges."""
         self._d_graph[node] = set()
 
@@ -32,8 +32,6 @@ class D_Graph(object):
 
     def del_node(self, node):
         """Remove specified node from graph."""
-        # TODO: Do we need to scrub the rest of the graph for references
-        # to the removed node?
         try:
             del self._d_graph[node]
             for k, v in self._d_graph.items():
